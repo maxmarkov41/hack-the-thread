@@ -2,15 +2,14 @@
 by 180DC NITK
 
 ## Ideas / Stack
-Language -> Python
-Social Media Interface -> gallery-dl / yt-dlp
-Database -> Anything works, but mongo is the easiest
-Whatsapp -> pywa
-(if i have time, i will do it with telegram too)
-AI -> Local LLM via LMStudio or Some AI/LLM with free API Keys and generous limit. using litellm as it supports converts diff apis to the openai standart, which means that we can switch out the keys and we'll only have to change the model name.
-Website -> Tailwind, Brython.js (Python on the Web),
-Backend -> Quart (async reimplementation of flask)
-Telegram -> python-telegram-bot
+- Language -> Python
+- Social Media Interface -> gallery-dl / yt-dlp
+- Database -> Anything works, but mongo is the easiest
+- ~~Whatsapp -> pywa (if i have time, i will do it with telegram too)~~
+- AI -> Local LLM via LMStudio or Some AI/LLM with free API Keys and generous limit. using litellm as it supports converts  diff apis to the openai standart, which means that we can switch out the keys and we'll only have to change the model name.
+- Website -> Tailwind, Brython.js (Python on the Web),
+- Backend -> Quart (async reimplementation of flask)
+- Telegram -> python-telegram-bot
 
 
 ## Readups / Resources
