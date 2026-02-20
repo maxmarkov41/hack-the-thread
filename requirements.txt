@@ -1,0 +1,5 @@
+python-telegram-bot
+quart
+pymongo
+litellm
+python-dotenv
