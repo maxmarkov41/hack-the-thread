@@ -46,6 +46,17 @@ Went with Google Gemini, for now
 
 ## challenges
 
--University and Workspace networks block communication on port 27017, figuring that out took a long time
+- University and Workspace networks block communication on port 27017, figuring that out took a long time
 
 ## Data Flow Diagram 
+
+```mermaid
+graph LR
+    User -->|sends link| TelegramBot[Telegram Bot]
+    TelegramBot -->|URL →| yt[yt-dlp]
+    yt -->|metadata + description| Groq[AI (Groq)]
+    Groq -->|summary, chapters, tags…| Mongo[(MongoDB)]
+    Website[Website] -->|queries| QuartAPI[Quart API]
+    QuartAPI --> Mongo
+    QuartAPI -->|JSON / HTML| Website
+```
