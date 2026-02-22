@@ -46,4 +46,6 @@ Went with Google Gemini, for now
 
 ## challenges
 
-University and Workspace networks block communication on port 27017, figuring that out took a long time
+-University and Workspace networks block communication on port 27017, figuring that out took a long time
+
+## Data Flow Diagram 
