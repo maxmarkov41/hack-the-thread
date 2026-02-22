@@ -2,13 +2,30 @@
 
 import os
 import time
+import asyncio
 from dotenv import load_dotenv
+from backend.Data.get_data import process_url
+from backend.Ai.process import call
+from backend.Database.store_retrieve import MNG
+
 
 load_dotenv()
-token = os.getenv('telegram_bot_token')
+token = os.getenv("telegram_bot_token")
+URI = os.getenv('connection_string')
+DB_NAME = os.getenv('db_name')
+COLLECTION_NAME = os.getenv('collection_name')
+
+
+mango = MNG(URI,DB_NAME,COLLECTION_NAME)
 
 from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    ContextTypes,
+    MessageHandler,
+    filters,
+)
 
 command_registry = []
 
@@ -18,33 +35,41 @@ URL_REGEX = r"""(?i)\b((?:https?:(?:/{1,3}|[a-z0-9%])|[a-z0-9.\-]+[.](?:com|net|
 link_filter = filters.TEXT & filters.Regex(URL_REGEX)
 
 
-def command(function):
-    command_registry.append(function)
-    return function
+def command(name: str = ""):
+    def inner(function):
+        command_registry.append((function, function.__name__ if name == "" else name))
+        return function
+
+    return inner
 
 
 async def post_init(application):
     print(f"Bot is online! Logged in as: {application.bot.username}")
 
+
 async def post_stop(application):
     print("Bot is stopping polling...")
 
+
 async def post_shutdown(application):
     print("Bot has fully shut down. Goodbye!")
+
 
 @command
 async def ping(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     sent_time = update.message.date.timestamp()
     current_time = time.time()
     latency = round((current_time - sent_time) * 1000)
-    await update.message.reply_text(f"Pong\\! 🏓\nLatency: `{latency}ms`", parse_mode='MarkdownV2')
+    await update.message.reply_text(
+        f"Pong\\! 🏓\nLatency: `{latency}ms`", parse_mode="MarkdownV2"
+    )
+
 
 @command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user = update.effective_user
-    await update.message.reply_text(
-        rf"Hi {user.full_name}!"
-    )
+    await update.message.reply_text(rf"Hi {user.full_name}!")
+
 
 @command
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -53,22 +78,28 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def link(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # await update.message.reply_text(update.message.text)
-    await update.message.reply_text('Received')
+    await update.message.reply_text("Received")
+    results = await asyncio.to_thread(process_url, update.message.text)
+    print(update.message.text)
+    print(results)
+    ai_call = await call(results)
+    print(ai_call)
+    ai_call['data'] = results
+    mango.insert(ai_call)
+    await update.message.reply_text("Processed")
 
 
-def main() -> None:
+async def main() -> None:
     application = Application.builder().token(token=token).build()
     for func in command_registry:
-        application.add_handler(CommandHandler(func.__name__, func))
+        application.add_handler(CommandHandler(func[1], func[0]))
     # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, link))
     application.add_handler(MessageHandler(~filters.COMMAND & link_filter, link))
     application.post_init = post_init
     application.post_stop = post_stop
     application.post_shutdown = post_shutdown
-
-    # Run the bot until the user presses Ctrl-C
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-
-if __name__ == "__main__":
-    main()
+    
+    return application
+    # application.run_polling(
+    #     allowed_updates=Update.ALL_TYPES
+    # )  # run until ctrl / cmd + c is detected

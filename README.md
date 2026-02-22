@@ -28,13 +28,22 @@ https://github.com/BerriAI/litellm
 https://docs.litellm.ai/docs/
 https://gist.github.com/gruber/8891611 ## regex
 https://docs.python-telegram-bot.org/en/stable/examples.echobot.html ## boilerplate
-
+https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py
+https://www.datacamp.com/tutorial/litellm
+https://docs.litellm.ai/docs
+https://stackoverflow.com/questions/14782894/run-a-python-program-on-a-new-thread
+https://stackoverflow.com/questions/6893968/how-to-get-the-return-value-from-a-thread
+https://www.geeksforgeeks.org/python/python-mongodb-query/
+https://quart.palletsprojects.com/
 ```
 
 ## Logs
-```
-Falling back to Telegram since i'm not comfortable providing my phone number to facebook which is required to create a developer account.
-yt-dlp is an easier option since it can be used as a python library, right away, gallery-dl was built as a command line tool and hence it is hard to use it as a library
+- Falling back to Telegram since i'm not comfortable providing my phone number to facebook which is required to create a developer account.
+- yt-dlp is an easier option since it can be used as a python library, right away, gallery-dl was built as a command line tool and hence it is hard to use it as a library
 or we can host / run a gallery dl server, and use that
 Went with Google Gemini, for now
-```
+
+
+## challenges
+
+University and Workspace networks block communication on port 27017, figuring that out took a long time

@@ -3,3 +3,5 @@ quart
 pymongo
 litellm
 python-dotenv
+yt-dlp
+quart-cors
