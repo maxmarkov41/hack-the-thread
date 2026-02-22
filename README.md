@@ -52,11 +52,11 @@ Went with Google Gemini, for now
 
 ```mermaid
 graph LR
-    User -->|sends link| TelegramBot[Telegram Bot]
-    TelegramBot -->|URL →| yt[yt-dlp]
-    yt -->|metadata + description| Groq[AI (Groq)]
-    Groq -->|summary, chapters, tags…| Mongo[(MongoDB)]
-    Website[Website] -->|queries| QuartAPI[Quart API]
-    QuartAPI --> Mongo
-    QuartAPI -->|JSON / HTML| Website
+    User -->|"sends YouTube link"| Bot["Telegram Bot"]
+    Bot -->|"URL + options"| YTDL["yt-dlp"]
+    YTDL -->|"title, description, thumbnail, …"| Groq["AI (Groq)"]
+    Groq -->|"summary, chapters, tags, …"| Mongo["MongoDB"]
+    Website["Website"] -->|"queries"| API["Quart API"]
+    API --> Mongo
+    API -->|"JSON / data"| Website
 ```
