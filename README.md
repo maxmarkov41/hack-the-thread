@@ -60,3 +60,5 @@ graph LR
     API --> Mongo
     API -->|"JSON / data"| Website
 ```
+## Video
+The video can be found here: https://github.com/maxmarkov41/hack-the-thread/blob/main/Video/output.mp4
